@@ -6,4 +6,7 @@ description   := "datasets.illumina project"
 
 bucketSuffix  := "era7.com"
 
-libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.5" % Test
+libraryDependencies ++= Seq(
+  "ohnosequences" %% "datasets" % "0.3.0",
+  "org.scalatest" %% "scalatest" % "2.2.5" % Test
+)
