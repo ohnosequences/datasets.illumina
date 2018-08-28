@@ -52,28 +52,48 @@ case object bp100 extends Length(100)
 case object bp75  extends Length(75)
 case object bp50  extends Length(50)
 
+trait AnySingleEndReads extends AnyReadsData {
+
+  type EndType = singleEndType.type
+  lazy val endType = singleEndType
+}
+trait AnyPairedEndReads extends AnyReadsData {
+
+  type EndType = pairedEndType.type
+  lazy val endType = pairedEndType
+}
+trait AnyPairedEndReads1 extends AnyPairedEndReads
+trait AnyPairedEndReads2 extends AnyPairedEndReads
+
 class SingleEndReads[
   InsrtSz <: AnyInsertSize,
   Lngth <: AnyLength
-](val l: Lngth, val is: InsrtSz)(val label: String)
-  extends ReadsData(singleEndType, l, is)
+](val length: Lngth, val insertSize: InsrtSz)(val label: String)
+extends AnySingleEndReads {
 
+  type InsertSize = InsrtSz
+  type Length     = Lngth
+}
 
 class PairedEndReads1[
   InsrtSz <: AnyInsertSize,
   Lngth <: AnyLength
-](val l: Lngth, val is: InsrtSz)(val label: String)
-  extends ReadsData(pairedEndType, l, is)
+](val length: Lngth, val insertSize: InsrtSz)(val label: String)
+extends AnyPairedEndReads1 {
 
+  type InsertSize = InsrtSz
+  type Length     = Lngth
+}
 class PairedEndReads2[
   InsrtSz <: AnyInsertSize,
   Lngth <: AnyLength
-](val l: Lngth, val is: InsrtSz)(val label: String)
-  extends ReadsData(pairedEndType, l, is)
+](val length: Lngth, val insertSize: InsrtSz)(val label: String)
+extends AnyPairedEndReads2 {
 
+  type InsertSize = InsrtSz
+  type Length     = Lngth
+}
 
-
-// TODO if there's any use of this, it should go into some AnyDataType
 trait AnySequencingTechnology
 case object Illumina extends AnySequencingTechnology
 
